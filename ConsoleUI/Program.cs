@@ -10,10 +10,45 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+            //Example2();
+
+            //Example();
+            CarManager carManager = new CarManager(new EfCarDal());
+            foreach (var car in carManager.GetCarDetail())
+            {
+                Console.WriteLine(car.Description+" / "+ car.BrandName +" / "+ car.ColorName +" / "+ car.DailyPrice);
+            }
+        }
+
+        private static void Example2()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
             BrandManager brandManager = new BrandManager(new EfBrandDal());
-            ColorManager colormanager = new ColorManager(new EfColorDal());
-            
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+            Console.WriteLine("Arabaların Açıklamaları");
+            foreach (var car in carManager.GetAll())
+            {
+                Console.WriteLine(car.Description);
+            }
+            Console.WriteLine("----------------");
+            Console.WriteLine("Renklerin Adı");
+            foreach (var color in colorManager.GetAll())
+            {
+                Console.WriteLine(color.ColorName);
+            }
+            Console.WriteLine("-----------------");
+            Console.WriteLine("Markaların Adı");
+            foreach (var brand in brandManager.GetAll())
+            {
+                Console.WriteLine(brand.BrandName);
+            }
+        }
+
+        private static void Example()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            ColorManager colorManager = new ColorManager(new EfColorDal());
             Console.WriteLine("Bütün Arabaların Açıklamaları");
             foreach (var c in carManager.GetAll())
             {
@@ -39,7 +74,7 @@ namespace ConsoleUI
             //colormanager.Add(new Color { ColorName = "Yellow" });
 
             Console.WriteLine("Color name");
-            foreach (var c in colormanager.GetAll())
+            foreach (var c in colorManager.GetAll())
             {
                 Console.WriteLine(c.ColorName);
             }
@@ -50,8 +85,6 @@ namespace ConsoleUI
             {
                 Console.WriteLine(b.BrandName);
             }
-
-           
         }
     }
 }
