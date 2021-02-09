@@ -12,7 +12,7 @@ namespace Business.Abstract
         void Add(Car car); //Ekleme 
         void Delete(Car Car); //Silme
         void Update(Car car); //Güncelleme
-        Car GeyById(int id); //Detayını görüntüle
+        Car GetById(int id); //Detayını görüntüle
         List<Car> GetCarsByBrandId(int id); 
         List<Car> GetCarsByColorId(int id);
         List<Car> GetCarsByDailyPrice(decimal min, decimal max);

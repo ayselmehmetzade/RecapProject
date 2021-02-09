@@ -18,6 +18,17 @@ namespace ConsoleUI
             {
                 Console.WriteLine(car.Description+" / "+ car.BrandName +" / "+ car.ColorName +" / "+ car.DailyPrice);
             }
+
+
+            //silme işlemi
+            var data = carManager.GetById(1);
+            carManager.Delete(data);
+
+            foreach (var car in carManager.GetCarDetail())
+            {
+                Console.WriteLine(car.Description + " / " + car.BrandName + " / " + car.ColorName + " / " + car.DailyPrice);
+            }
+
         }
 
         private static void Example2()

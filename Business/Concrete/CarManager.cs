@@ -66,7 +66,7 @@ namespace Business.Concrete
             return _carDal.GetAll(c => c.Description == description);
         }
 
-        public Car GeyById(int id)
+        public Car GetById(int id)
         {
             return _carDal.Get(c => c.Id == id);
         }
