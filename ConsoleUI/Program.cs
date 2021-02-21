@@ -13,11 +13,68 @@ namespace ConsoleUI
             //Example2();
 
             //Example();
+
+            //CarDelete(carManager); 
+
+            //CarDetailShow();
+            //UserAdd();
+
+            //CustomerAdd();
+
+            RentalAdd();
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result = rentalManager.GetRentalDetails();
+            if (result.Success == true)
+            {
+                foreach (var rental in result.Data)
+                {
+                    System.Console.WriteLine(rental.Description + " " + rental.UserName + " " + rental.RentDate);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+           
+        }
+
+        private static void RentalAdd()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            rentalManager.Add(new Rental
+            {
+                CarId = 3,
+                CustomerId = 1,
+                RentDate = new DateTime(2021, 3, 5)
+
+            });
+        }
+
+        private static void CustomerAdd()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            customerManager.Add(new Customer
+            {
+                CompanyName = "Test",
+                UserId = 1,
+            });
+        }
+
+        private static void UserAdd()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+            userManager.Add(new User
+            {
+                FirstName = "Aysel",
+                LastName = "Mehmetzade",
+                Email = "aysel@hotmail.com",
+                Password = "Aysel1234"
+            });
+        }
+
+        private static void CarDetailShow()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
-            //foreach (var car in carManager.GetCarDetail())
-            //{
-            //    Console.WriteLine(car.Description+" / "+ car.BrandName +" / "+ car.ColorName +" / "+ car.DailyPrice);
-            //}
             var result = carManager.GetCarDetail();
             if (result.Success == true)
             {
@@ -30,41 +87,81 @@ namespace ConsoleUI
             {
                 Console.WriteLine(result.Message);
             }
-
-            //silme işlemi
-            //var data = carManager.GetById(1);
-            //carManager.Delete(data);
-
-            //foreach (var car in carManager.GetCarDetail())
-            //{
-            //    Console.WriteLine(car.Description + " / " + car.BrandName + " / " + car.ColorName + " / " + car.DailyPrice);
-            //}
-
         }
 
-        //private static void Example2()
-        //{
-        //    CarManager carManager = new CarManager(new EfCarDal());
-        //    BrandManager brandManager = new BrandManager(new EfBrandDal());
-        //    ColorManager colorManager = new ColorManager(new EfColorDal());
-        //    Console.WriteLine("Arabaların Açıklamaları");
-        //    foreach (var car in carManager.GetAll())
-        //    {
-        //        Console.WriteLine(car.Description);
-        //    }
-        //    Console.WriteLine("----------------");
-        //    Console.WriteLine("Renklerin Adı");
-        //    foreach (var color in colorManager.GetAll())
-        //    {
-        //        Console.WriteLine(color.ColorName);
-        //    }
-        //    Console.WriteLine("-----------------");
-        //    Console.WriteLine("Markaların Adı");
-        //    foreach (var brand in brandManager.GetAll())
-        //    {
-        //        Console.WriteLine(brand.BrandName);
-        //    }
-        //}
+        private static void CarDelete(CarManager carManager)
+        {
+
+            //silme işlemi
+            var data1 = carManager.GetById(1014);
+            carManager.Delete(data1.Data);
+            var resultSilme = carManager.GetCarDetail();
+            if (resultSilme.Success == true)
+            {
+                foreach (var car in resultSilme.Data)
+                {
+                    Console.WriteLine(car.Description + " / " + car.BrandName + " / " + car.ColorName + " / " + car.DailyPrice);
+                }
+            }
+            else
+            {
+                Console.WriteLine(resultSilme.Message);
+            }
+        }
+
+        private static void Example2()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+            Console.WriteLine("Arabaların Açıklamaları");
+
+            var result = carManager.GetAll();
+
+            if (result.Success == true)
+            {
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.Description);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
+            Console.WriteLine("----------------");
+            Console.WriteLine("Renklerin Adı");
+            var result1 = colorManager.GetAll();
+            if (result1.Success == true)
+            {
+                foreach (var color in result1.Data)
+                {
+                    Console.WriteLine(color.ColorName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result1.Message);
+            }
+
+            Console.WriteLine("-----------------");
+            Console.WriteLine("Markaların Adı");
+
+            var result2 = brandManager.GetAll();
+            if (result2.Success == true)
+            {
+                foreach (var brand in result2.Data)
+                {
+                    Console.WriteLine(brand.BrandName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result2.Message);
+            }
+
+        }
 
         //private static void Example()
         //{
