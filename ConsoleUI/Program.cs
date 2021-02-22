@@ -19,23 +19,22 @@ namespace ConsoleUI
             //CarDetailShow();
             //UserAdd();
 
-            //CustomerAdd();
+            CustomerAdd();
+            //RentalAdd();
+            //RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            //var result = rentalManager.GetRentalDetails();
+            //if (result.Success == true)
+            //{
+            //    foreach (var rental in result.Data)
+            //    {
+            //        System.Console.WriteLine(rental.Description + " " + rental.UserName + " " + rental.RentDate);
+            //    }
+            //}
+            //else
+            //{
+            //    Console.WriteLine(result.Message);
+            //}
 
-            RentalAdd();
-            RentalManager rentalManager = new RentalManager(new EfRentalDal());
-            var result = rentalManager.GetRentalDetails();
-            if (result.Success == true)
-            {
-                foreach (var rental in result.Data)
-                {
-                    System.Console.WriteLine(rental.Description + " " + rental.UserName + " " + rental.RentDate);
-                }
-            }
-            else
-            {
-                Console.WriteLine(result.Message);
-            }
-           
         }
 
         private static void RentalAdd()
@@ -48,16 +47,20 @@ namespace ConsoleUI
                 RentDate = new DateTime(2021, 3, 5)
 
             });
+            Console.ReadLine();
         }
 
         private static void CustomerAdd()
         {
             CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
-            customerManager.Add(new Customer
+           var result= customerManager.Add(new Customer
             {
-                CompanyName = "Test",
-                UserId = 1,
+                CompanyName = "test",
+                UserId = 4
             });
+            Console.WriteLine(result.Message);
+            Console.ReadLine();
+
         }
 
         private static void UserAdd()
@@ -65,11 +68,13 @@ namespace ConsoleUI
             UserManager userManager = new UserManager(new EfUserDal());
             userManager.Add(new User
             {
-                FirstName = "Aysel",
-                LastName = "Mehmetzade",
-                Email = "aysel@hotmail.com",
-                Password = "Aysel1234"
+                FirstName = "Dila",
+                LastName = "Saglam",
+                Email = "Dila@hotmail.com",
+                Password = "Dila525"
             });
+            Console.ReadLine();
+
         }
 
         private static void CarDetailShow()

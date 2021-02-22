@@ -21,7 +21,7 @@ namespace Business.Concrete
         public IResult Add(User user)
         {
             _userdal.Add(user);
-            return new SuccessResult(Messages.CarAdded);
+            return new SuccessResult(Messages.Added);
         }
 
         public IResult Delete(User user)

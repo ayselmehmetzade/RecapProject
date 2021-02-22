@@ -29,7 +29,7 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CarInvalid);
             }
             _rentalDal.Add(rental);
-            return new SuccessResult(Messages.CarAdded);
+            return new SuccessResult(Messages.Added);
         }
 
         public IResult Delete(Rental rental)
