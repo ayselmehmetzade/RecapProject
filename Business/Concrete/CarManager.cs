@@ -1,8 +1,10 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -10,6 +12,7 @@ using Entities.DTOs;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Business.Concrete
@@ -17,20 +20,23 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         ICarDal _carDal;
+        ICustomerService _customerService;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal, ICustomerService customerService)
         {
             _carDal = carDal;
+            _customerService = customerService;
         }
         
+        [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            //if (car.Description.Length<=2 && car.DailyPrice<0)
-            //{
-            //    return new ErrorResult(Messages.CarInvalid);
-            //}
-            //ValidationTool.Validate(new CarValidator(), car);
+            IResult result= BusinessRules.Run(CheckIfCarCountColorCorrect(1), CheckIfCustomerLimitExceded());
+            if (result!=null)
+            {
+                return result;
+            }
             _carDal.Add(car);
             return new SuccessResult(Messages.Added);
         }
@@ -81,17 +87,37 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
             //if (car.Description.Length <= 2 && car.DailyPrice < 0)
             //{
             //    return new ErrorResult(Messages.CarInvalid2);
             //}
-
-            ValidationTool.Validate(new CarValidator(), car);
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
 
         }
+
+        private IResult CheckIfCarCountColorCorrect(int colorId)
+        {
+            var result = _carDal.GetAll(c=>c.ColorId == colorId).Count;
+            if (result >= 10)
+            {
+                return new ErrorResult(Messages.CarCountColorError);
+            }
+            return new SuccessResult();
+        }
+        private IResult CheckIfCustomerLimitExceded()
+        {
+            var result = _customerService.GetAll();
+            if (result.Data.Count> 15)
+            {
+                return new ErrorResult(Messages.CustomerLimitControl);
+            }
+            return new SuccessResult();
+        }
+
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Core.Entities.Concrete;
 using DataAccess.Concrete;
 using DataAccess.Concrete.EntityFramewrok;
 using Entities.Concrete;
@@ -70,8 +71,7 @@ namespace ConsoleUI
             {
                 FirstName = "Dila",
                 LastName = "Saglam",
-                Email = "Dila@hotmail.com",
-                Password = "Dila525"
+                Email = "Dila@hotmail.com"
             });
             Console.ReadLine();
 
@@ -79,7 +79,7 @@ namespace ConsoleUI
 
         private static void CarDetailShow()
         {
-            CarManager carManager = new CarManager(new EfCarDal());
+            CarManager carManager = new CarManager(new EfCarDal(), new CustomerManager(new EfCustomerDal()));
             var result = carManager.GetCarDetail();
             if (result.Success == true)
             {
@@ -116,7 +116,7 @@ namespace ConsoleUI
 
         private static void Example2()
         {
-            CarManager carManager = new CarManager(new EfCarDal());
+            CarManager carManager = new CarManager(new EfCarDal(), new CustomerManager(new EfCustomerDal()));
             BrandManager brandManager = new BrandManager(new EfBrandDal());
             ColorManager colorManager = new ColorManager(new EfColorDal());
             Console.WriteLine("Arabaların Açıklamaları");
