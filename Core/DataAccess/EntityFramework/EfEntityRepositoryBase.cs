@@ -22,6 +22,14 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
+        public bool Any(Expression<Func<TEntity, bool>> predicate)
+        {
+            using (TContext context = new TContext())
+            {
+                return context.Set<TEntity>().Any(predicate);
+            }
+        }
+
         public void Delete(TEntity entity)
         {
             using (TContext context = new TContext())
@@ -45,6 +53,14 @@ namespace Core.DataAccess.EntityFramework
             using (TContext context = new TContext())
             {
                 return filter == null ? context.Set<TEntity>().ToList() : context.Set<TEntity>().Where(filter).ToList();
+            }
+        }
+
+        public TEntity GetById(int Id)
+        {
+            using (TContext context = new TContext())
+            {
+                return context.Set<TEntity>().Find(Id);
             }
         }
 

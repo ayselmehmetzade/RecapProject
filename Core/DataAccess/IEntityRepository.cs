@@ -10,8 +10,10 @@ namespace Core.DataAccess
     {
         List<T> GetAll(Expression<Func<T,bool>>filter=null);
         T Get(Expression<Func<T, bool>> filter);
+        T GetById(int Id);
         void Add(T entity);
         void Update(T entity);
         void Delete(T entity);
+        bool Any(Expression<Func<T,bool>> predicate);
     }
 }

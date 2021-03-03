@@ -1,4 +1,5 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
@@ -29,6 +30,11 @@ namespace DataAccess.Concrete
         public void Add(Car car)
         {
             _cars.Add(car);
+        }
+
+        public bool Any(Expression<Func<Car, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         public void Delete(Car car)
@@ -71,6 +77,11 @@ namespace DataAccess.Concrete
             carsUpdate.ColorId = car.ColorId;
             carsUpdate.BrandId = car.BrandId;
             carsUpdate.DailyPrice = car.DailyPrice;
+        }
+
+        Car IEntityRepository<Car>.GetById(int Id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
