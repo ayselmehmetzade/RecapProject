@@ -47,7 +47,7 @@ namespace Business.Concrete
         }
 
         public IDataResult<List<CarImage>> GetByCarImages(int carId)
-        {
+        {            
             return new SuccessDataResult<List<CarImage>>((CheckCarImagesExists(carId)), Messages.ListedByCarId);
         }
 
@@ -75,7 +75,7 @@ namespace Business.Concrete
         private List<CarImage> CheckCarImagesExists(int carId)
         {
             bool check = _carImageDal.Any(x => x.CarId == carId);
-            string path = ImageFolder +@"\deneme.jpg";
+            string path = ImageFolder + @"\deneme.jpg";
             if (!check)
             {
                 List<CarImage> carImage = new List<CarImage>()
@@ -86,5 +86,7 @@ namespace Business.Concrete
             }
             return _carImageDal.GetAll(c => c.CarId == carId);
         }
+
+      
     }
 }

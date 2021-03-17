@@ -17,7 +17,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Images\19852af44c8c4278a22487f5afe35d51.jpg" />
+    <None Include="wwwroot\Images\33a5cc3ddbf14cfe8d9fefdd1283b6ce.png" />
+    <None Include="wwwroot\Images\347a924e241c4ac4927232addfaae368.jpg" />
+    <None Include="wwwroot\Images\3e946baf9b9347a9aa684ae2927f7c24.jpg" />
+    <None Include="wwwroot\Images\739d4dfb79f4459b96520ca2421e2007.jpg" />
+    <None Include="wwwroot\Images\9b20c8293d1b4b98b5a74e15e2c6373a.jpg" />
+    <None Include="wwwroot\Images\ac8ea19d9fec486bae7284cb911e2df8.jpg" />
+    <None Include="wwwroot\Images\d52c8afc74734138b10a0b22d0348165.jpg" />
+    <None Include="wwwroot\Images\deneme.jpg" />
   </ItemGroup>
 
 

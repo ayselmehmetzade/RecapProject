@@ -30,14 +30,14 @@ namespace Business.Concrete
             _carDal = carDal;
             _customerService = customerService;
         }
-        
+
         [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
-            IResult result= BusinessRules.Run(CheckIfCarCountColorCorrect(1), CheckIfCustomerLimitExceded());
-            if (result!=null)
+            IResult result = BusinessRules.Run(CheckIfCarCountColorCorrect(1), CheckIfCustomerLimitExceded());
+            if (result != null)
             {
                 return result;
             }
@@ -109,7 +109,7 @@ namespace Business.Concrete
 
         private IResult CheckIfCarCountColorCorrect(int colorId)
         {
-            var result = _carDal.GetAll(c=>c.ColorId == colorId).Count;
+            var result = _carDal.GetAll(c => c.ColorId == colorId).Count;
             if (result >= 10)
             {
                 return new ErrorResult(Messages.CarCountColorError);
@@ -119,7 +119,7 @@ namespace Business.Concrete
         private IResult CheckIfCustomerLimitExceded()
         {
             var result = _customerService.GetAll();
-            if (result.Data.Count> 15)
+            if (result.Data.Count > 15)
             {
                 return new ErrorResult(Messages.CustomerLimitControl);
             }
@@ -134,6 +134,10 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarUpdated);
         }
 
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByCarId(int carId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetail(x => x.Id == carId), Messages.CarDetailList);
 
+        }
     }
 }
