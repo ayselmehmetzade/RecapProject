@@ -69,7 +69,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut]
+        [HttpPost("update")]
         public IActionResult UpdateImage([FromForm] IFormFile file, [FromForm] CarImage carImage)
         {
             var result = _carImageService.UpdateImage(file, carImage); // todo:yemeyebilir
@@ -80,7 +80,7 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete]
+        [HttpPost("delete")]
         public IActionResult DeleteImage([FromBody] CarImage carImage)
         {
             var result = _carImageService.DeleteImage(carImage);

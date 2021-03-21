@@ -25,17 +25,31 @@ namespace Business.Concrete
         public IResult AddImage(IFormFile file, CarImage image)
         {
             IResult result = BusinessRules.Run(ImageCountControl(image));
-            if (result != null)
+
+            if (!result.Success)
             {
-                return result;
+                return new ErrorResult(result.Message);
             }
-            image.ImagePath = FileUploadHelper.Add(file);
+
+
+            var imageResult = FileUploadHelper.Upload(file);
+
+            if (!imageResult.Success)
+            {
+                return new ErrorResult(imageResult.Message);
+            }
+            image.ImagePath = imageResult.Message;
             _carImageDal.Add(image);
             return new SuccessResult(Messages.ImageAdded);
         }
-
-        public IResult DeleteImage(CarImage image)
+    
+        public IResult DeleteImage(CarImage imageq)
         {
+            var image = _carImageDal.Get(c => c.Id == imageq.Id);
+            if (image == null)
+            {
+                return new ErrorResult("Image not found");
+            }
             FileUploadHelper.Delete(image.ImagePath);
             _carImageDal.Delete(image);
             return new SuccessResult(Messages.ImageDeleted);
@@ -56,8 +70,20 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImage>(_carImageDal.GetById(imageId), Messages.ImageList);
         }
 
-        public IResult UpdateImage(IFormFile file, CarImage image)
+        public IResult UpdateImage( IFormFile file, CarImage image)
         {
+            var isImage = _carImageDal.Get(c => c.Id == image.Id);
+            if (isImage == null)
+            {
+                return new ErrorResult("Image not found");
+            }
+
+            var updatedFile = FileUploadHelper.Update(file, isImage.ImagePath);
+            if (!updatedFile.Success)
+            {
+                return new ErrorResult(updatedFile.Message);
+            }
+            image.ImagePath = updatedFile.Message;
             image.Date = DateTime.Now;
             _carImageDal.Update(image);
             return new SuccessResult(Messages.ImageUpdated);
