@@ -26,11 +26,10 @@ namespace Business.Concrete
         {
             IResult result = BusinessRules.Run(ImageCountControl(image));
 
-            if (!result.Success)
+            if (result!=null)
             {
                 return new ErrorResult(result.Message);
             }
-
 
             var imageResult = FileUploadHelper.Upload(file);
 
